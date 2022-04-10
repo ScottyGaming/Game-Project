@@ -21,7 +21,7 @@ money = 10
 randomnos=[10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200]
 enemies = ['Troll','Slime','Demon','Goblin','Subs','The Creator G','Dragon','Griffin']
 run_value = 0
-spacer = "________________________________________"
+spacer = ""
 
 #grid
 grid_pos = [0,

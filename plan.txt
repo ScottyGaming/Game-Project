@@ -1,3 +1,12 @@
+Add economy
+Add shop
+Add opening title plot thingy
+Add more ascii art
+Fix spacers
+Fix sleep cmds
+Fix layout
+
+
 Consumables:
   Potion = 30HP
   Berry = 20HP
