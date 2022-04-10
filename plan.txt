@@ -1,0 +1,7 @@
+Consumables:
+  Potion = 30HP
+  Berry = 20HP
+  Water = 10HP
+  Poison = Enemy Damage 30HP
+
+ 
