@@ -3,6 +3,7 @@ from random import *
 from time import sleep
 from func_stats import *
 from func_menu import *
+from ascii import *
 
 #Grid
 #starting game
@@ -39,6 +40,7 @@ start()
 #Game Loop
 while True:
     print()
+    choice(list_of_graphics)()
     menu()
     
 

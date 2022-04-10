@@ -123,6 +123,8 @@ def randomencounter():
   global hp
   global bonushp
   global enemyhp
+  global money
+  global run_value
   encountered = choice(enemies)
   print(f"You have encountered {encountered}!")
   print(spacer)
@@ -130,6 +132,7 @@ def randomencounter():
   while enemyhp>0 or hp>0:
     if run_value == 1:
       print(f"You have escaped from {encountered}")
+      run_value = 0
       print(spacer)
       sleep(1)
       break
@@ -140,16 +143,25 @@ def randomencounter():
         villain()
     if enemyhp <= 0:
       print(f"You have successfully defeated {encountered}")
+      coingain = choice(randomnos)
+      money+=coingain
+      print(f"You gained {coingain} coins!")
       print(spacer)
       sleep(1)
       break
     elif hp <= 0:
       print(f"You have been killed by {encountered}")
+      coinlose = choice(randomnos)
+      if money-coinlose>0:
+        money-=coinlose
+        print(f"You lost {coinlose} coins!")
+      else:
+        money = 10
+        hp = 1
+        print("You managed to hold onto 10 coins and escape with 1 hp!")
+        break
       print(spacer)
-      sleep(1)
-      input(f"Thanks for playing this game by Girish! Run the game again to restart! Press any key to exit")
-      quit()
-
+  
 
 
 
@@ -285,7 +297,7 @@ def inventory():
 #4
 def stats():
     print(spacer)
-    print(f"HP = {hp}\nBonus HP = {bonushp}\nShield = {bonusshield}")
+    print(f"HP = {hp}\nBonus HP = {bonushp}\nShield = {bonusshield}\nMoney = {money}")
     print(spacer)
   
 #5 needs #2 #3 #4 to work
