@@ -1,27 +1,13 @@
 #import codes
 from random import *
 from time import sleep
-from func_stats import *
+from func_vars import *
 from func_menu import *
-from ascii import *
+from func_graphics import *
 
 #Grid
 #starting game
-print('   |\                     /)')
-print('  /\_\\__               (_//')
-print(' |   `>\-`     _._      //`)')
-print('  \ /` \\  _.-`:::`-._  //')
-print('   `    \|`    :::    |/')
-print('         |     :::     |')
-print('         |.....:::.....|')
-print('         |:::::::::::::|')
-print('         |     :::     |')
-print('         \     :::     /')
-print('          \    :::    /')
-print('           `-. ::: .-')
-print("            //`:::`\\")
-print("           //   '   \\")
-print('          |/         \\')
+logo()
 print()
 input(" -- Weird Dungeon Explore Game I Made --\n\nPress any button except the power off button to start!\n")
 print(spacer)
