@@ -1,163 +1,120 @@
-from random import *
-from time import sleep
-from func_vars import *
+from func_events import *
+from func_graphics import *
 from func_menu import *
+from func_messages import *
+from func_vars import *
+from random import *
+
+#switches
+run_switch = 0
+fightswitches = [0,1];fight_switch = choice(fightswitches)
 
 
-#fight system
+#counters
+enemies_defeated = 0
+bosses_defeated = 0
+
+#loot_tables
+Enemies = {0:0,('Slime','Goblin','Imp','Cougar'):[50,10,10]
+,('Rogue','Bat','Smurf','Zombie'):[80,20,20]
+,('Skeleton','Golem','Troll','Kobold'):[100,20,30]
+,('Giant','Great Unclean','Tyranid','Orc','Necron'):[200,50,40]
+,('Fallen Palladin','Druid','Doraemon'):[300,100,50]}
+enemies = list(Enemies.keys())
+loot = list(Enemies.values())
+
+money = [100]
+#Enemies:hp,xp,coins
+
 def villain():
-  global fightswitch
   global hp
-  global bonushp
-  global enemyhp
-  global run_value
-  if fightswitch == 0:
-        enemyattackrange = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50]
-        ch = choice(enemyattackrange)
-        hp=hp-ch+bonusshield
-        print(spacer)
-        print(f"Enemy attacked you! You lost {ch-bonusshield} hp!\n")
-        sleep(1)
-        print(spacer)
-        fightswitch = 1
+  global fight_switch
+  ch = choice(attackrange)
+  hp=hp-ch
+  print(f"Enemy attacked you! You lost {ch} hp!\n")
+  sleep(1)
+  fight_switch = 1
 
 def hero():
-  global fightswitch
   global hp
-  global bonushp
+  global fight_switch
   global enemyhp
-  global run_value
-  if fightswitch == 1:
-    print(spacer)
-    print(f"\nPlayer HP = {hp}\t\t\tEnemy HP = {enemyhp}\n")
-    inp = int(input("-- FIGHT --\n1)Attack 2)Defend 3)Use consumables 4)Run Away\n: "))
-    print(spacer)
-    if inp == 4:
-      run_value = 1
-    elif inp == 3:
-      if len(consumables)>0:
-        print(spacer)
-        print(f"You have {len(consumables)} items you can use!")
-        print(f"You have opened the inventory! You have {len(consumables)} items!")
-        print(f"potion x {consumables.count('potion')}",end = ', ')
-        print(f"poison x {consumables.count('poison')}",end = ', ')
-        print(f"berry x {consumables.count('berry')}",end = ', ')
-        print(f"water x {consumables.count('water')}",end = ', ')
-        print()
-        print(spacer)
-        inp = input("Enter name of item you want to use: ")
-        if inp in consumables and inp == 'potion':
-          if hp+50 <= defaulthp+bonushp:
-            hp+=50
-            print("You have regained 50 HP!")
-            print(spacer)
+  print(f"\nPlayer HP = {hp}\t\t\tEnemy HP = {enemyhp}\n")
+  inp = int(input("-- FIGHT --\n1)Attack 2)Defend 3)Use consumables 4)Run Away\n: "))
+  if inp == 4:
+          run_switch = 1
+          
+  elif inp == 3:
+          if len(consumables)>0:
+            invlist()
+            useitemduringfight()
           else:
-            hp=defaulthp+bonushp
-            print("You have been healed completely")
-            print(spacer)
-        elif inp in consumables and inp == "berry":
-          if hp+20 <= defaulthp+bonushp:
-            hp+=20
-            print("You have regained 20 HP!")
-            print(spacer)
+            print("You have no consumables you can use!")
+            
+  elif inp == 2:
+          parryvalues = [0,10,20,30,40,50]
+          e = choice(parryvalues)
+          if hp+e<maxpossiblehp:
+            hp+=e
+            print(f"You parried and regained {e} hp")
+            sleep(1)
           else:
-            hp=defaulthp+bonushp
-            print("You have been healed completely")
-            print(spacer)
-        elif inp in consumables and inp == "water":
-          if hp+10 <= defaulthp+bonushp:
-            hp+=10
-            print("You have regained 10 HP!")
-            print(spacer)
+            hp = maxpossiblehp
+            print(f"You parried and regained all of your hp")
+            sleep(1)
+          
+  elif inp == 1:
+          e = choice(attackrange)
+          if enemyhp-e>0:
+            enemyhp-=e
+            print(f"You attacked the enemy! Enemy lost {e} hp\n")
+            sleep(1)
           else:
-            hp=defaulthp+bonushp
-            print("You have been healed completely")
-            print(spacer)
-        elif inp in consumables and inp == "poison":
-          if enemyhp-30 >= 0:
-            enemyhp-=30
-            print("Enemy Lost 30 HP!")
-            print(spacer)
-          else:
-            enemyhp = 1
-            print("Enemy is on the brink of death!")
-            print(spacer)
-        fightswitch = 0
-      else:
-        print("You have no consumables you can use!")
-        print(spacer)
-        
-    elif inp == 2:
-      parryvalues = [0,10,20,30,40,50]
-      e = choice(parryvalues)
-      if hp+e<defaulthp+bonushp:
-        hp+=e
-        print(f"You parried and regained {e} hp")
-        print(spacer)
-        sleep(1)
-      else:
-        hp = defaulthp+bonushp
-        print(f"You parried and regained all of your hp")
-        print(spacer)
-        sleep(1)
-      fightswitch = 0
-    elif inp == 1:
-      attackvalues = [0,10,20,30,40,50]
-      e = choice(attackvalues)
-      if enemyhp-e>0:
-        enemyhp-=e
-        print(f"You attacked the enemy! Enemy lost {e} hp\n")
-        print(spacer)
-        sleep(1)
-      else:
-        enemyhp=0
-        print(f"You attacked the enemy! Enemy lost all of their hp\n")
-        sleep(1)
-        print(spacer)
-      fightswitch = 0
+            enemyhp=0
+            print(f"You attacked the enemy! Enemy lost all of their hp\n")
+            sleep(1)
+  fight_switch = 0
 
-
-def randomencounter():
-  global fightswitch
+def encounter():
   global hp
-  global bonushp
   global enemyhp
+  global fight_switch
   global money
-  global run_value
-  encountered = choice(enemies)
-  print(f"You have encountered {encountered}!")
-  print(spacer)
-  enemyhp=choice(randomnos)
-  while enemyhp>0 or hp>0:
-    if run_value == 1:
-      print(f"You have escaped from {encountered}")
-      run_value = 0
-      print(spacer)
-      sleep(1)
-      break
-    else:
-      if fightswitch == 1:
-        hero()
-      elif fightswitch == 0:
+  index = choice([1,2,3,4,5])
+  enemy = choice(enemies[index])
+  enemyhp = loot[index][0]
+  xp = loot[index][1]
+  coin = loot[index][2]
+  print(f"You have encountered {enemy} with {enemyhp} hp!")
+
+  while hp>0 or enemyhp>0:
+    global run_switch
+    if run_switch == 0:
+      if fight_switch == 0:
         villain()
-    if enemyhp <= 0:
-      print(f"You have successfully defeated {encountered}")
-      coingain = choice(randomnos)
-      money+=coingain
-      print(f"You gained {coingain} coins!")
-      print(spacer)
-      sleep(1)
-      break
-    elif hp <= 0:
-      print(f"You have been killed by {encountered}")
-      coinlose = choice(randomnos)
-      if money-coinlose>0:
-        money-=coinlose
-        print(f"You lost {coinlose} coins!")
-      else:
-        money = 10
-        hp = 1
-        print("You managed to hold onto 10 coins and escape with 1 hp!")
-        break
-      print(spacer)
   
+      elif fight_switch == 1:
+        hero()
+        
+    else:
+      print(f"You have escaped from {enemy}")
+      break
+      
+    if enemyhp <= 0:
+        print(f"You have successfully defeated {enemy}")
+        coingain = coin
+        money.append(coingain)
+        print(f"You gained {coingain} coins!")
+        sleep(1)
+        break
+    elif hp <= 0:
+        print(f"You have been killed by {enemy}")
+        coinlose = choice(randomnos)
+        money.append(-coinlose)
+        print(f"You lost {coinlose} coins!")
+        hp = choice([10,20,30,40,50,60])
+        print(f"You were slain by {enemy} ! Barely holding onto life you escape!")
+        break
+
+      
+    

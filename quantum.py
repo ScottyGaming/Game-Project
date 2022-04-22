@@ -19,8 +19,11 @@ def start():
     print("Relaunch Program XD")
     input("Press any key to exit")
     quit()
-  else:
+  elif start>0 and start<9:
     print(grid_pos[start])
+  else:
+    print("Enter a number")
+
     
 start()
 #Game Loop
